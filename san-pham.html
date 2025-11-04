@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sản Phẩm - Dưa Lưới Lộc Phú</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        .products-page {
+            padding: 60px 0;
+            background-color: var(--light-bg-color);
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .page-header h2 {
+            font-size: 36px;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+        }
+        
+        .page-header p {
+            font-size: 18px;
+            color: #666;
+        }
+        
+        .filter-section {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            flex-wrap: wrap;
+            position: relative;
+        }
+        
+        .filter-group label {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 15px;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 10px 24px;
+            border: 2px solid #e0e0e0;
+            background-color: #fff;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .pagination button:hover,
+        .pagination button.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        @media (max-width: 1024px) {
+            .product-grid-page {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .product-grid-page {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            
+            .filter-group {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+        
+        .sort-container {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .select-wrapper {
+            position: relative;
+            min-width: 200px;
+        }
+
+        .sort-select {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 100%;
+            padding: 10px 35px 10px 15px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            background-color: #fff;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .sort-select:hover {
+            border-color: var(--primary-color);
+        }
+
+        .sort-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(var(--primary-color-rgb), 0.2);
+        }
+
+        .select-arrow {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 6px solid #666;
+            pointer-events: none;
+            transition: transform 0.3s ease;
+        }
+
+        .sort-select:focus + .select-arrow {
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        @media (max-width: 768px) {
+            .sort-container {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .select-wrapper {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .product-grid-page {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .product-grid-page {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-flow: row; /* đảm bảo lưới đi từ trái sang phải */
+            gap: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="container">
+            <div class="logo">
+                <h1>Dưa Lưới Lộc Phú</h1>
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Tìm kiếm sản phẩm...">
+                <button type="submit">Tìm</button>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Trang chủ</a></li>
+                    <li><a href="san-pham.html" class="active">Sản phẩm</a></li>
+                    <li><a href="#">Thanh toán</a></li>
+                    <li><a href="gioi-thieu.html">Giới thiệu</a></li>
+                    <li><a href="lien-he.html">Liên hệ</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="products-page">
+            <div class="container">
+                <div class="page-header">
+                    <h2>SẢN PHẨM DƯA LƯỚI</h2>
+                    <p>Tất cả các loại dưa lưới cao cấp từ nông trại Lộc Phú</p>
+                </div>
+
+                <div class="filter-section">
+                    <div class="filter-group">
+                        <label>Lọc theo:</label>
+                        <div class="filter-buttons">
+                            <button class="filter-btn active" data-filter="all">Tất cả</button>
+                            <button class="filter-btn" data-filter="loai1">Loại 1</button>
+                            <button class="filter-btn" data-filter="loai2">Loại 2</button>
+                            <button class="filter-btn" data-filter="combo">Combo</button>
+                            <button class="filter-btn" data-filter="sale">Đang giảm giá</button>
+                        </div>
+                        
+                        <div class="sort-container">
+                            <label>Sắp xếp:</label>
+                            <div class="select-wrapper">
+                                <select class="sort-select" id="sortSelect">
+                                    <option value="default">Mặc định</option>
+                                    <option value="price-asc">Giá: Thấp đến Cao</option>
+                                    <option value="price-desc">Giá: Cao đến Thấp</option>
+                                    <option value="name">Tên: A-Z</option>
+                                </select>
+                                <div class="select-arrow"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-grid-page" id="productGrid">
+                    <div class="product-card" data-index="1" data-category="loai1 sale">
+                        <div class="product-image">
+                            <img src="dua1.jpg" alt="Dưa lưới Huỳnh Long">
+                            <span class="discount-badge">-10%</span>
+                        </div>
+                        <span class="product-badge badge-bestseller">Bán chạy</span>
+                        <h3 class="product-name">Dưa lưới Huỳnh Long</h3>
+                        <div class="product-rating">
+                            <span class="stars">⭐⭐⭐⭐⭐</span>
+                            <span class="rating-count">(128 đánh giá)</span>
+                        </div>
+                        <div class="product-detail">
+                            <div class="product-detail-item">
+                                <span>Trọng lượng:</span> 1.2 - 1.5 kg/trái
+                            </div>
+                            <div class="product-detail-item">
+                                <span>Độ ngọt:</span> 15-16 Brix
+                            </div>
+                        </div>
+                        <div class="product-price">
+                            <span class="old-price">75.000đ</span>
+                            <span class="new-price">65.000đ / kg</span>
+                        </div>
+                        <a href="#" class="btn-buy" onclick="addToCart(event, 'Dưa lưới Huỳnh Long', 65000, 'dua1.jpg')">Mua ngay</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2025 Dưa Lưới Lộc Phú. Tất cả quyền được bảo lưu.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Lọc & tương tác sản phẩm
+        function addToCart(event, name, price, image) {
+            if (event && typeof event.preventDefault === 'function') event.preventDefault();
+
+            let productName = name;
+            let productPrice = price;
+            let productImage = image;
+
+            if (!productName) {
+                const btn = event.currentTarget || event.target;
+                const card = btn.closest('.product-card');
+                productName = card.querySelector('.product-name')?.textContent.trim() || 'Sản phẩm';
+                const priceEl = card.querySelector('.new-price') || card.querySelector('.old-price');
+                const priceText = priceEl ? priceEl.textContent : '0';
+                productPrice = parseInt(priceText.replace(/[^\d]/g, '')) || 0;
+                productImage = card.querySelector('.product-image img')?.src || '';
+            }
+
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const existingItem = cart.find(item => item.name === productName);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    name: productName,
+                    price: productPrice,
+                    image: productImage,
+                    quantity: 1
+                });
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert('Đã thêm ' + productName + ' vào giỏ hàng!');
+            if (confirm('Bạn có muốn đến trang thanh toán không?')) {
+                window.location.href = 'thanh-toan.html';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Gắn sự kiện cho tất cả nút Mua ngay
+            document.querySelectorAll('.btn-buy').forEach(btn => {
+                btn.addEventListener('click', addToCart);
+            });
+
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const productCards = document.querySelectorAll('.product-card');
+            const originalOrder = Array.from(productCards).slice().sort((a, b) => {
+  return (parseInt(a.dataset.index) || 0) - (parseInt(b.dataset.index) || 0);
+});
+            const productGrid = document.getElementById('productGrid');
+            const sortSelect = document.getElementById('sortSelect');
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Xóa active khỏi tất cả buttons
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    // Thêm active vào button được click
+                    this.classList.add('active');
+
+                    const filterValue = this.getAttribute('data-filter');
+
+                    productCards.forEach(card => {
+                        if (filterValue === 'all') {
+                            card.style.display = '';
+                        } else {
+                            const categories = card.getAttribute('data-category') || '';
+                            if (categories.includes(filterValue)) {
+                                card.style.display = '';
+                            } else {
+                                card.style.display = 'none';
+                            }
+                        }
+                    });
+                });
+            });
+
+            function parsePriceFromCard(card) {
+                const priceEl = card.querySelector('.new-price') || card.querySelector('.old-price');
+                if (!priceEl) return 0;
+                const digits = priceEl.textContent.replace(/[^\d]/g, '');
+                return parseInt(digits) || 0;
+            }
+
+            sortSelect.addEventListener('change', function() {
+                const sortValue = this.value;
+                const productsArray = Array.from(productCards).slice();
+
+                if (sortValue === 'name') {
+                    productsArray.sort((a, b) => {
+                        const nameA = a.querySelector('.product-name')?.textContent || '';
+                        const nameB = b.querySelector('.product-name')?.textContent || '';
+                        return nameA.localeCompare(nameB, 'vi');
+                    });
+                } else if (sortValue === 'price-asc' || sortValue === 'price-desc') {
+                    productsArray.sort((a, b) => {
+                        const priceA = parsePriceFromCard(a);
+                        const priceB = parsePriceFromCard(b);
+                        return sortValue === 'price-asc' ? priceA - priceB : priceB - priceA;
+                    });
+                }
+
+                // Sắp xếp lại DOM
+                if (sortValue === 'default') {
+  originalOrder.forEach(product => productGrid.appendChild(product));
+} else {
+  productsArray.forEach(product => productGrid.appendChild(product));
+}
+            });
+        });
+    </script>
+
+</body>
+</html>
