@@ -1,3 +1,41 @@
+<?php
+// Trang chủ — nội dung hero + sản phẩm render từ data/home.data (admin chỉnh qua admin/home.php)
+declare(strict_types=1);
+require __DIR__ . '/includes/config.php';
+require __DIR__ . '/includes/storage.php';
+
+$home = storage_read('home.data');
+if (empty($home)) {
+    $home = [
+        'hero' => [
+            'title'       => 'Dưa Lưới Tươi Sạch',
+            'subtitle'    => '100% Từ Nông Trại VietGAP',
+            'button_text' => 'Xem chi tiết',
+            'button_link' => '#',
+        ],
+        'products' => [
+            [
+                'name'      => 'Dưa lưới Huỳnh Long',
+                'image'     => 'dua1.jpg',
+                'old_price' => 75000,
+                'price'     => 65000,
+                'discount'  => 10,
+            ],
+        ],
+    ];
+}
+$hero    = $home['hero']    ?? [];
+$products = is_array($home['products'] ?? null) ? $home['products'] : [];
+
+function esc_home($s): string
+{
+    return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8');
+}
+function fmt_price_home(int $n): string
+{
+    return number_format($n, 0, ',', '.') . 'đ';
+}
+?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -31,13 +69,13 @@
     </header>
 
     <main>
-        <section class="hero-banner">
-            <div class="container">
-                <h2>Dưa Lưới Tươi Sạch</h2>
-                <p>100% Từ Nông Trại VietGAP</p>
-                <a href="#" class="btn-primary">Xem chi tiết</a>
-            </div>
-        </section>
+<section class="hero-banner">
+    <div class="container">
+        <h2><?php echo esc_home($hero['title'] ?? ''); ?></h2>
+        <p><?php echo esc_home($hero['subtitle'] ?? ''); ?></p>
+        <a href="<?php echo esc_home($hero['button_link'] ?? '#'); ?>" class="btn-primary"><?php echo esc_home($hero['button_text'] ?? 'Xem chi tiết'); ?></a>
+    </div>
+</section>
 
         <section class="features">
             <div class="container">
