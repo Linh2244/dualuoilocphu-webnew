@@ -69,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="password" name="password" required>
             <button type="submit">Đăng nhập</button>
         </form>
-        <a href="../index.html">← Về trang chủ</a>
+        <a href="../index.php">← Về trang chủ</a>
     </div>
 </body>
 </html>

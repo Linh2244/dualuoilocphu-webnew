@@ -58,7 +58,7 @@ function fmt_price_home(int $n): string
             </div>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="index.html" class="active">Trang chủ</a></li>
+                    <li><a href="index.php" class="active">Trang chủ</a></li>
                     <li><a href="san-pham.html">Sản phẩm</a></li>
                     <li><a href="thanh-toan.html">Thanh toán</a></li>
                     <li><a href="gioi-thieu.html">Giới thiệu</a></li>

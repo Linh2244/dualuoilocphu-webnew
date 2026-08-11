@@ -387,7 +387,7 @@
             </div>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="index.html">Trang chủ</a></li>
+                    <li><a href="index.php">Trang chủ</a></li>
                     <li><a href="san-pham.html">Sản phẩm</a></li>
                     <li><a href="thanh-toan.html" class="active">Thanh toán</a></li>
                     <li><a href="gioi-thieu.html">Giới thiệu</a></li>
@@ -764,7 +764,7 @@
                     // Xóa giỏ hàng sau khi đặt hàng thành công
                     if (paymentMethod === 'cod' || confirm('Bạn đã hoàn tất thanh toán chưa?')) {
                         localStorage.removeItem('cart');
-                        window.location.href = 'index.html';
+                        window.location.href = 'index.php';
                     }
                 } else {
                     alert('Đặt hàng thất bại: ' + (data.error || 'Vui lòng thử lại.'));
