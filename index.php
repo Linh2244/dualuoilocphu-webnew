@@ -100,18 +100,31 @@ function fmt_price_home(int $n): string
                 <p>Những trái dưa lưới tươi ngon, mọng nước nhất được tuyển chọn.</p>
 
                 <div class="product-grid">
-                    <div class="product-card">
-                        <div class="product-image">
-                            <img src="dua1.jpg" alt="Dưa lưới Huỳnh Long">
-                            <span class="discount-badge">-10%</span>
+                    <?php foreach ($products as $p): ?>
+                        <?php
+                            $pName  = (string)($p['name'] ?? '');
+                            $pImg   = (string)($p['image'] ?? '');
+                            $pPrice = (int)($p['price'] ?? 0);
+                            $pOld   = (int)($p['old_price'] ?? 0);
+                            $pDisc  = (int)($p['discount'] ?? 0);
+                        ?>
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="<?php echo esc_home($pImg); ?>" alt="<?php echo esc_home($pName); ?>">
+                                <?php if ($pDisc > 0): ?>
+                                    <span class="discount-badge">-<?php echo (int)$pDisc; ?>%</span>
+                                <?php endif; ?>
+                            </div>
+                            <h3 class="product-name"><?php echo esc_home($pName); ?></h3>
+                            <div class="product-price">
+                                <?php if ($pOld > 0 && $pOld !== $pPrice): ?>
+                                    <span class="old-price"><?php echo fmt_price_home($pOld); ?></span>
+                                <?php endif; ?>
+                                <span class="new-price"><?php echo fmt_price_home($pPrice); ?> / kg</span>
+                            </div>
+                            <a href="#" class="btn-buy" onclick="addToCart(event, '<?php echo esc_home($pName); ?>', <?php echo $pPrice; ?>, '<?php echo esc_home($pImg); ?>')">Mua ngay</a>
                         </div>
-                        <h3 class="product-name">Dưa lưới Huỳnh Long</h3>
-                        <div class="product-price">
-                            <span class="old-price">75.000đ</span>
-                            <span class="new-price">65.000đ / kg</span>
-                        </div>
-                        <a href="#" class="btn-buy" onclick="addToCart(event, 'Dưa lưới Huỳnh Long', 65000, 'dua1.jpg')">Mua ngay</a>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </section>
