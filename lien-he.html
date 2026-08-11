@@ -303,8 +303,8 @@
             <nav class="main-nav">
                 <ul>
                     <li><a href="index.html">Trang chủ</a></li>
-                    <li><a href="#">Sản phẩm</a></li>
-                    <li><a href="#">Thanh toán</a></li>
+                    <li><a href="san-pham.html">Sản phẩm</a></li>
+                    <li><a href="thanh-toan.html">Thanh toán</a></li>
                     <li><a href="gioi-thieu.html">Giới thiệu</a></li>
                     <li><a href="lien-he.html" class="active">Liên hệ</a></li>
                 </ul>
@@ -396,13 +396,7 @@
                 <div class="map-container">
                     <iframe 
                         src="https://www.google.com/maps?q=11.86875,106.71314&hl=vi&z=16&output=embed"
-                        width="100%" height="180" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-                    </iframe
-                        height="100%" 
-                        style="border:0;" 
-                        allowfullscreen="" 
-                        loading="lazy" 
-                        referrerpolicy="no-referrer-when-downgrade">
+                        width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
                     </iframe>
                 </div>
             </div>
@@ -440,27 +434,44 @@
     </footer>
 
     <script>
-        // Xử lý form liên hệ
+        // Xử lý form liên hệ — gửi về backend api/contact.php
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            
-            // Lấy dữ liệu form
-            const formData = {
-                name: document.getElementById('name').value,
-                phone: document.getElementById('phone').value,
-                email: document.getElementById('email').value,
-                subject: document.getElementById('subject').value,
-                message: document.getElementById('message').value
+
+            const submitBtn = this.querySelector('.submit-btn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Đang gửi...';
+
+            const payload = {
+                name: document.getElementById('name').value.trim(),
+                phone: document.getElementById('phone').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                subject: document.getElementById('subject').value.trim(),
+                message: document.getElementById('message').value.trim(),
+                website: '' // Honeypot chống spam — luôn để trống
             };
-            
-            // Hiển thị thông báo thành công
-            alert('Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi trong thời gian sớm nhất.');
-            
-            // Reset form
-            this.reset();
-            
-            // Ở đây bạn có thể thêm code để gửi dữ liệu đến server
-            console.log('Form data:', formData);
+
+            fetch('api/contact.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            })
+            .then(response => response.json())
+            .then(data => {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Gửi tin nhắn';
+                if (data.success) {
+                    alert(data.message || 'Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi trong thời gian sớm nhất.');
+                    this.reset();
+                } else {
+                    alert('Gửi tin nhắn thất bại: ' + (data.error || 'Vui lòng thử lại.'));
+                }
+            })
+            .catch(() => {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Gửi tin nhắn';
+                alert('Không thể kết nối đến máy chủ. Vui lòng thử lại.');
+            });
         });
     </script>
 

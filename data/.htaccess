@@ -1,0 +1,16 @@
+# Chặn mọi truy cập web trực tiếp vào thư mục dữ liệu (đơn hàng, tin nhắn, tài khoản admin)
+# PHP là cửa duy nhất đọc/ghi các file này — kể cả curl cũng không lấy được nội dung.
+Options -Indexes
+<IfModule mod_authz_core.c>
+    Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+</IfModule>
+# Lớp phòng hộ nữa: nếu host lạ bỏ qua lệnh trên mà vẫn đọc được file, mọi request trực tiếp
+# vào *.json / *.data / *.key đều bị chặn (không cho trả nội dung thô).
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule \.(json|data|key)$ - [F,L]
+</IfModule>

@@ -1,0 +1,4 @@
+# Dữ liệu runtime do PHP tạo ra — không commit lên git
+data/*.json
+data/*.data
+data/*.key
