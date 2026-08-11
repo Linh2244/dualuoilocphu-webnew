@@ -85,6 +85,7 @@ function esc($s): string
     <div class="topbar">
         <h1>Quản trị Dưa Lưới Lộc Phú</h1>
         <div>
+            <a href="home.php">Chỉnh trang chủ</a>
             <a href="../index.php">Xem website</a>
             <a href="logout.php">Đăng xuất</a>
         </div>
