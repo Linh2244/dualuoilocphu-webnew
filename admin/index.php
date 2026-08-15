@@ -28,6 +28,18 @@ function esc($s): string
 {
     return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8');
 }
+
+$cityMap = [
+    'dongnai'   => 'Đồng Nai',
+    'hcm'       => 'TP. Hồ Chí Minh',
+    'binhduong' => 'Bình Dương',
+    'baria'     => 'Bà Rịa - Vũng Tàu',
+];
+$districtMap = [
+    'xuanloc'  => 'Xuân Lộc',
+    'bienhoa'  => 'Biên Hòa',
+    'longthanh'=> 'Long Thành',
+];
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -144,7 +156,7 @@ function esc($s): string
                                 <td data-label="Khách hàng">
                                     <?php echo esc($name); ?><br>
                                     <a href="tel:<?php echo esc($phone); ?>"><?php echo esc($phone); ?></a>
-                                    <?php if ($address !== ''): ?><br><span style="color:#999"><?php echo esc($address . ', ' . $customer['district'] . ', ' . $customer['city']); ?></span><?php endif; ?>
+                                    <?php if ($address !== ''): ?><br><span style="color:#999"><?php echo esc($address . ', ' . ($districtMap[$customer['district']] ?? $customer['district']) . ', ' . ($cityMap[$customer['city']] ?? $customer['city'])); ?></span><?php endif; ?>
                                     <?php if ($note !== ''): ?><br><span style="color:#f39c12">Ghi chú: <?php echo esc($note); ?></span><?php endif; ?>
                                 </td>
                                 <td data-label="Sản phẩm"><?php echo $itemText; ?></td>

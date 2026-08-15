@@ -122,7 +122,7 @@ function fmt_price_home(int $n): string
                                 <?php endif; ?>
                                 <span class="new-price"><?php echo fmt_price_home($pPrice); ?> / kg</span>
                             </div>
-                            <a href="#" class="btn-buy" onclick="addToCart(event, '<?php echo esc_home($pName); ?>', <?php echo $pPrice; ?>, '<?php echo esc_home($pImg); ?>')">Mua ngay</a>
+                            <a href="#" class="btn-buy" onclick="addToCart(event, <?php echo htmlspecialchars(json_encode($pName), ENT_QUOTES, 'UTF-8'); ?>, <?php echo $pPrice; ?>, <?php echo htmlspecialchars(json_encode($pImg), ENT_QUOTES, 'UTF-8'); ?>)">Mua ngay</a>
                         </div>
                     <?php endforeach; ?>
                 </div>
